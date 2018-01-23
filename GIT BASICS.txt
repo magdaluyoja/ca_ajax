@@ -1,0 +1,32 @@
+git --version	--> check git version
+git config --global user.name "magdaluyoja"
+git config --global user.email "magdaluyoja@gmail.com" (remove global if for the specific repository only)
+git config --list
+
+need help?
+git help <verb>
+git <verb> --help
+
+Initialize repository from existing project
+1. navigate inside the existing local project folder
+2. git init - Initialize empty Git repository
+3. git status - track untracked files
+4. touch .gitignore - create .gitignore file to save files that should not seen by others
+5. git add -A - adds all untracked files to staging area
+6. git commit -m "Message here" - to commit all files
+7. git log
+
+Cloning a remote repo
+1. git clone <url> <where to clone>
+2. git remote -v --> for details
+3. git branch -a --> for branches and master
+4. git diff	--> displays the changes in the file
+5. git add -A
+6. git commit -m
+7. git pull <repository name> master --> pulls the last changes made in the file in the repository
+8. git push <repository name> master --> uploads the commited files
+
+Creating a branch
+git branch <branch name> --> creates branhc
+git branch --> to see what master or branch you are working with
+git checkout <branch name> -->switch to brach
