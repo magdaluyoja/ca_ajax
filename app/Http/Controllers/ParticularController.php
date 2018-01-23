@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
 use App\Particular;
 class ParticularController extends Controller
 {
     public function getParticulars(){
         return view('pages.modules.maintenance.particular.particulars');
+    }
+
+    public function validateRequest($request){
+        return Validator::make($request->all(), [
+            'particular' => 'required|max:100',
+            'account_code' => 'required',
+        ]);
     }
     /**
      * Display a listing of the resource.
@@ -38,8 +46,13 @@ class ParticularController extends Controller
      */
     public function store(Request $request)
     {
-        $particular = Particular::create($request->all());
-        return response()->json($particular);
+        $validator = $this->validateRequest($request);
+        if ($validator->fails()) {
+            return response()->json(['success'=>false, 'error'=>$validator->errors()]);
+        }else{
+            $particular = Particular::create($request->all());
+            return response()->json(['success'=>true, 'data'=>$particular]);
+        }
     }
 
     /**
@@ -73,10 +86,15 @@ class ParticularController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $particular = Particular::find($id)->update($request->all());
-        return response()->json($particular);
+        $validator = $this->validateRequest($request);
+        if ($validator->fails()) {
+            return response()->json(['success'=>false, 'error'=>$validator->errors()]);
+        }else{
+            $particular = Particular::find($id)->update($request->all());
+            return response()->json(['success'=>$particular]);
+        }
+        
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -85,7 +103,7 @@ class ParticularController extends Controller
      */
     public function destroy($id)
     {
-        Particular::find($id)->delete();
-        return response()->json(['done']);
+        $result = Particular::find($id)->delete();
+        return response()->json([$result]);
     }
 }

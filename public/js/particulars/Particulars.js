@@ -74,9 +74,13 @@
                 url: self.form_action,
                 data:{particular:self.particular, account_code:self.account_code}
             }).done(function(data){
-                self.manageDataPaging();
-                $(".modal").modal('hide');
-                toastr.success('Particular Created Successfully.', 'Success Alert', {timeOut: 5000});
+                if(data.success){
+                    self.manageDataPaging();
+                    $(".modal").modal('hide');
+                    toastr.success('Particular Created Successfully.', 'Success Alert', {timeOut: 5000});
+                }else{
+                    self.showError(data);
+                }
             });
         },
 
@@ -88,9 +92,13 @@
                 url: self.form_action,
                 data:{particular:self.particular, account_code:self.account_code}
             }).done(function(data){
-                self.getPageData();
-                $(".modal").modal('hide');
-                toastr.success('Particular Updated Successfully.', 'Success Alert', {timeOut: 5000});
+                if(data.success){
+                    self.getPageData();
+                    $(".modal").modal('hide');
+                    toastr.success('Particular Updated Successfully.', 'Success Alert', {timeOut: 5000});
+                }else{
+                    self.showError(data);
+                }
             });
         },
 
@@ -101,10 +109,33 @@
                 type:'delete',
                 url: url + '/' + self.id,
             }).done(function(data) {
-                c_obj.remove();
-                toastr.success('Particular Deleted Successfully.', 'Success Alert', {timeOut: 5000});
-                self.manageDataPaging();
+                if(data[0]){
+                    c_obj.remove();
+                    toastr.success('Particular Deleted Successfully.', 'Success Alert', {timeOut: 5000});
+                    self.manageDataPaging();
+                }else{
+                    toastr.error("Unable to delete Particular", 'Error!', {timeOut: 5000});
+                }
+                
             });
+        },
+
+        showError:function(data){
+            let error = data.error;
+            let arr_errmsg = [];
+            let result = "";
+            for (let element in error) {
+                result += `<label>${element.charAt(0).toUpperCase() + element.slice(1)}</label>
+                            <ul>`;
+                if( error.hasOwnProperty(element) ) {
+                    arr_errmsg = error[element];
+                    for(let msg in arr_errmsg){
+                        result += `<li>${arr_errmsg[msg]}</li>`;
+                    }
+                } 
+                result += `</ul>`;
+                } 
+            toastr.error(result, 'Error!', {timeOut: 5000});
         }
 
     }
