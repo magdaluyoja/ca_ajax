@@ -16,6 +16,6 @@ Route::get('/', 'PageController@getIndex');
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('particulars','ParticularController@getParticulars');
+    Route::get('particulars-maintenance','ParticularController@getParticulars');
     Route::resource('particularMethods', 'ParticularController');
 });

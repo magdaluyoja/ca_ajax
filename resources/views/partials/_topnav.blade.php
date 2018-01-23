@@ -17,10 +17,10 @@
             @guest
             <li><a href="/">Home</a></li>
             @else
-            <li class="dropdown">
+            <li class="dropdown {{ strpos(url()->current(), 'maintenance') ? 'active' : ''}}">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Maintenance<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/particulars">Particulars</a></li>
+                    <li class = "{{ strpos(url()->current(), 'particulars-maintenance') ? 'active' : ''}}"><a href="/particulars-maintenance">Particulars</a></li>
                 </ul>
             </li>
             @endguest
